@@ -8,23 +8,19 @@ from typing import Optional
 
 class Propriete(Case):
     """Case représentant une propriété achetable"""
-    def __init__(self, nom: str, position: int, prix: int, loyer: int, couleur: str, prix_maison: int = 50):
+    def __init__(self, nom: str, position: int, prix: int, loyer: int, couleur: str):
         super().__init__(nom, position)
         self.prix = prix
         self.loyer_base = loyer
         self.couleur = couleur
         self.proprietaire: Optional['Joueur'] = None # type: ignore
         self.nb_maisons = 0
-        self.prix_maison = prix_maison
         self.hypothequee = False
 
     # Hôtel =5e maison
     @property
     def a_hotel(self):
-        if self.nb_maisons == 5:
-            return True
-        else:
-            return False
+        return self.nb_maisons == 5
 
     def calculer_loyer(self) -> int:
         """Calcule le loyer en fonction des maisons/hôtels"""

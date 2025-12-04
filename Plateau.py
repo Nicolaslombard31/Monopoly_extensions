@@ -5,6 +5,7 @@ Durée: 16h sur 4 séances de 4h
 
 from Propriete import Propriete
 from Case import Case
+from Quartier import Quartier
 from CaseSpeciale import CaseSpeciale
 from Gare import Gare
 from Compagnie import Compagnie 
@@ -19,13 +20,15 @@ class Plateau:
     """Représente le plateau de jeu Monopoly"""
     def __init__(self):
         self.cases: List['Case'] = [] # type: ignore
+        self.quartier: List['Quartier'] = []
         self._creer_plateau()
     
     def _creer_plateau(self):
         """Crée les 40 cases du plateau Monopoly"""
         # TODO SÉANCE 1: Créer les cases du plateau
         # Version simplifiée pour démarrer:
-       
+
+
         for p in DB.get_proprietes():
             self.cases.append(p)
 
@@ -84,6 +87,21 @@ class Plateau:
         #self.cases.append(Propriete("Avenue des Champs-Élysées", 37, 350, 35, "bleu_fonce", 200))
         self.cases.append(CaseSpeciale("Taxe de luxe", 38, TypeCase.TAXE, 100))
         #self.cases.append(Propriete("Rue de la Paix", 39, 400, 50, "bleu_fonce", 200))
+    
+        self.quartier.append(Quartier("marron", 50))
+        self.quartier.append(Quartier("bleu clair", 50))
+        self.quartier.append(Quartier("rose", 100))
+        self.quartier.append(Quartier("orange", 100))
+        self.quartier.append(Quartier("rouge", 150))
+        self.quartier.append(Quartier("jaune", 150))
+        self.quartier.append(Quartier("vert", 200))
+        self.quartier.append(Quartier("bleu foncé", 200))
+
+        for q in self.quartier:
+            for case in self.cases:
+                if isinstance(case, Propriete) and case.couleur == q.couleur:
+                    case.quartier = q
+                    q.proprietes.append(case)
     
         self.cases.sort(key=lambda x: x.position)
     
